@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Lock/UnLock Details";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblDetails').DataTable({
+            "order": [],
+            "ajax": {
+                'url': '@Url.Action("Details", "Home")',
+                "type": "GET",
+                "datatype": "json"
+
+            },
+            "columns": [
+                { },
+                { },
+                { },
+                {
+
+                }
+            ]
+        });
+});
+</script>
+<div class="mx-auto p-10">
+    <div class="text-center">
+        <h2>Lock/UnLock Details</h2>
+
+    </div>
+    <div class="mt-2 col-md-12">
+        <table class="table table-bordered table-striped" id="tblDetails">
+            <thead class="text-white" style="background-color:#0062cc">
+                <tr>
+                    <th scope="col">Division</th>
+                    <th scope="col">Profile</th>
+                    <th scope="col">Unlock/Lock Status</th>
+                    <th scope="col">Date Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                </tr>
+                <tr>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                    <td><br /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

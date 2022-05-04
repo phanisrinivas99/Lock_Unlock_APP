@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Lock History";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tblHistory').DataTable({
+            "order": [],
+            "ajax": {
+                'url': '@Url.Action("LockHistoryData", "Home")',
+                "type": "GET",
+                "datatype": "json"
+
+            },
+            "columns": [
+                { },
+                { },
+                { },
+                {
+                    "bSortable": false,
+                    "render": function (data, row, r) {
+
+                        //console.log(r);
+                        return '<a href="javascript:void(0)" onclick="Details(' + data + ')" >Views</a>';
+                    }
+                }
+            ]
+        });
+    });
+    function Details(id) {
+        window.location.href ='@Url.Action("Index", "Home")?id=' + id;
+    }
+</script>
+<div class="mx-auto p-10">
+    <div class="text-center">
+        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Lock/Unlock history</a>
+
+    </div>
+    <div class="mt-2 col-md-12"> 
+        <table class="table table-bordered table-striped" id="tblHistory">
+            <thead class="text-white" style="background-color:#0062cc">
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Lock/UnLock</th>
+                    <th scope="col">Date Time</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
