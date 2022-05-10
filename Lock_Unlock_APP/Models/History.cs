@@ -15,10 +15,10 @@ namespace Lock_Unlock_APP.Models
     public class Details
     {
         public string Id { get; set; }
-        public string historyId { get; set; }
-        public string division { get; set; }
-        public string Profile { get; set; }
-        public string lockUnlockStatus { get; set; }
-        public DateTime dateTime { get; set; }
+        public string LockUnlock_Id { get; set; }
+        public string Division { get; set; }
+        public string ProfileName { get; set; }
+        public string LockUnlock_Status { get; set; }
+        public DateTime CreateDate { get; set; }
     }
 }

@@ -3,8 +3,16 @@
 }
 
 <script type="text/javascript">
-    var id='@ViewBag.Id';
+    var id = '@ViewBag.Id';
+
     $(document).ready(function () {
+        @*$('#btnLockProfile').click(function () {
+            $('#btnLockProfile').prop('disabled', true);
+            $.getJSON("@Url.Action("UpdateStatus", "Home")", { id: id }, function (data) {
+                alert(data);
+            $('#btnLockProfile').prop('disabled', false);
+            });
+    });*@
         $('#tblDetails').DataTable({
             "order": [],
             "ajax": {
@@ -18,7 +26,7 @@
                 { },
                 { },
                 {
-                   
+
                 }
             ]
         });
@@ -26,7 +34,7 @@
 </script>
 <div class="mx-auto p-10">
     <div class="text-center">
-        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">(Un)Lock Profiles</a>
+        <h2>Lock/UnLock Details</h2>
 
     </div>
     <div class="mt-2 col-md-12">

@@ -64,63 +64,63 @@ namespace Lock_Unlock_APP.Models
 
             return historyList;
         }
-        public static List<Details> GetDetails(string id)
-        {
-            List<Details> detailsList = new List<Details>();
-            Details details = new Details();
-            details.Id = "1234";
-            details.historyId = "343554";
-            details.division = "Asdll";
-            details.Profile = "Diyna";
-            details.lockUnlockStatus = "Lock";
-            details.dateTime= DateTime.Now.AddDays(-80);
-            detailsList.Add(details);
-            details = new Details();
-            details.Id = "1235";
-            details.historyId = "343555";
-            details.division = "Zone";
-            details.Profile = "Alisa";
-            details.lockUnlockStatus = "UnLock";
-            details.dateTime = DateTime.Now.AddDays(-70);
-            detailsList.Add(details);
-            details = new Details();
-            details.Id = "1236";
-            details.historyId = "343556";
-            details.division = "Canada";
-            details.Profile = "Diya";
-            details.lockUnlockStatus = "Active";
-            details.dateTime = DateTime.Now.AddDays(-60);
-            detailsList.Add(details);
-            details = new Details();
-            details.Id = "1237";
-            details.historyId = "343556";
-            details.division = "france";
-            details.Profile = "Sophi";
-            details.lockUnlockStatus = "Active";
-            details.dateTime = DateTime.Now.AddDays(-50);
-            detailsList.Add(details);
-            details = new Details();
-            details.Id = "1238";
-            details.historyId = "343557";
-            details.division = "Canada";
-            details.Profile = "shophiya";
-            details.lockUnlockStatus = "Active";
-            details.dateTime = DateTime.Now.AddDays(-40);
-            detailsList.Add(details);
-            details = new Details();
-            details.Id = "1238";
-            details.historyId = "343558";
-            details.division = "Japan";
-            details.Profile = "Andri";
-            details.lockUnlockStatus = "UnLock";
-            details.dateTime = DateTime.Now.AddDays(-80);
-            detailsList.Add(details);
-            detailsList = detailsList.Where(m => m.historyId == id).ToList();
-            return detailsList;
+        //public static List<Details> GetDetails(string id)
+        //{
+        //    List<Details> detailsList = new List<Details>();
+        //    Details details = new Details();
+        //    details.Id = "1234";
+        //    details.historyId = "343554";
+        //    details.division = "Asdll";
+        //    details.Profile = "Diyna";
+        //    details.lockUnlockStatus = "Lock";
+        //    details.dateTime= DateTime.Now.AddDays(-80);
+        //    detailsList.Add(details);
+        //    details = new Details();
+        //    details.Id = "1235";
+        //    details.historyId = "343555";
+        //    details.division = "Zone";
+        //    details.Profile = "Alisa";
+        //    details.lockUnlockStatus = "UnLock";
+        //    details.dateTime = DateTime.Now.AddDays(-70);
+        //    detailsList.Add(details);
+        //    details = new Details();
+        //    details.Id = "1236";
+        //    details.historyId = "343556";
+        //    details.division = "Canada";
+        //    details.Profile = "Diya";
+        //    details.lockUnlockStatus = "Active";
+        //    details.dateTime = DateTime.Now.AddDays(-60);
+        //    detailsList.Add(details);
+        //    details = new Details();
+        //    details.Id = "1237";
+        //    details.historyId = "343556";
+        //    details.division = "france";
+        //    details.Profile = "Sophi";
+        //    details.lockUnlockStatus = "Active";
+        //    details.dateTime = DateTime.Now.AddDays(-50);
+        //    detailsList.Add(details);
+        //    details = new Details();
+        //    details.Id = "1238";
+        //    details.historyId = "343557";
+        //    details.division = "Canada";
+        //    details.Profile = "shophiya";
+        //    details.lockUnlockStatus = "Active";
+        //    details.dateTime = DateTime.Now.AddDays(-40);
+        //    detailsList.Add(details);
+        //    details = new Details();
+        //    details.Id = "1238";
+        //    details.historyId = "343558";
+        //    details.division = "Japan";
+        //    details.Profile = "Andri";
+        //    details.lockUnlockStatus = "UnLock";
+        //    details.dateTime = DateTime.Now.AddDays(-80);
+        //    detailsList.Add(details);
+        //    detailsList = detailsList.Where(m => m.historyId == id).ToList();
+        //    return detailsList;
 
 
 
-        }
+        //}
         public static class Macro
         {
             public static List<History> GetHeaders()
@@ -129,6 +129,71 @@ namespace Lock_Unlock_APP.Models
                 string query = "select * from LockUnlock";
                 using (var db = new SqlConnection(connectionString))
                     return db.Query<History>(query).AsList();
+            }
+            public static List<Details> GetDetailsById(int id)
+            {
+                var connectionString = "Data Source=LAPTOP-OD0O0KPE\\SQLEXPRESS;Initial Catalog=Profile;Integrated Security=true;";
+                string query = "select * from LockUnlockDetails where LockUnlock_Id=" + id;
+                using (var db = new SqlConnection(connectionString))
+                    return db.Query<Details>(query).AsList();
+            }
+            public static string UpdateStatus(int id)
+            {
+                var details = GetDetailsById(id);
+                foreach (var detail in details)
+                {
+                    var columnvalue = detail.LockUnlock_Status == "Lock" ? "UnLock" : detail.LockUnlock_Status;
+                    var connectionString = "Data Source=LAPTOP-OD0O0KPE\\SQLEXPRESS;Initial Catalog=Profile;Integrated Security=true;";
+                    string query = "UPDATE LockUnlockDetails SET  LockUnlock_Status ='" + columnvalue + "' WHERE Id =" + detail.Id;
+                    using (var db = new SqlConnection(connectionString))
+                        db.Query<int>(query).AsList();
+
+                }
+                return "Succes";
+            }
+            public static async Task<int> CreateHeader(string status, string userName)
+            {
+                int id = 0;
+                var connectionString = "Data Source=LAPTOP-OD0O0KPE\\SQLEXPRESS;Initial Catalog=Profile;Integrated Security=true;";
+                using (var db = new SqlConnection(connectionString))
+                {
+                    string insertUserSql = @"INSERT INTO dbo.[LockUnlock](UserName, Lock_Unlock, CreateDate)
+                        OUTPUT INSERTED.[Id]
+                        VALUES(@Username, @Lock_Unlock, @CreateDate);";
+
+                    id = db.QuerySingle<int>(
+                                                    insertUserSql,
+                                                    new
+                                                    {
+                                                        Username = userName,
+                                                        Lock_Unlock = status,
+                                                        CreateDate = DateTime.Now
+                                                    });
+                }
+                return id;
+            }
+            public static async Task<int> CreateDetails(string status, string ProfileName, string division, int headerId)
+            {
+                int id = 0;
+                var connectionString = "Data Source=LAPTOP-OD0O0KPE\\SQLEXPRESS;Initial Catalog=Profile;Integrated Security=true;";
+                using (var db = new SqlConnection(connectionString))
+                {
+                    string insertUserSql = @"INSERT INTO dbo.[LockUnlockDetails](LockUnlock_Id, Division, ProfileName,LockUnlock_Status,CreateDate)
+                        OUTPUT INSERTED.[Id]
+                        VALUES(@LockUnlock_Id, @Division, @ProfileName,@LockUnlock_Status,@CreateDate);";
+
+                    id = db.QuerySingle<int>(
+                                                   insertUserSql,
+                                                   new
+                                                   {
+                                                       LockUnlock_Id = headerId,
+                                                       Division = division,
+                                                       ProfileName = ProfileName,
+                                                       LockUnlock_Status = status,
+                                                       CreateDate = DateTime.Now
+                                                   });
+                }
+                return id;
             }
         }
     }

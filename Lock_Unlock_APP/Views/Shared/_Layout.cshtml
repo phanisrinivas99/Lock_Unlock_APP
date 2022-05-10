@@ -12,6 +12,11 @@
 </head>
 <body>
     <header>
+        <style>
+            .css-error {
+                border-color: red;
+            }
+        </style>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary text-white border-bottom box-shadow mb-3">
             <div class="container">
                 <span><b>Einstein Lock Unlock App</b></span>
@@ -22,7 +27,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse text-white">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                           <a class="nav-link link-light text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                           <a class="nav-link link-light text-white" asp-area="" asp-controller="Home" asp-action="LockUnLockDetails">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link link-light text-white" asp-area="" asp-controller="Home" asp-action="LockHistory">Show Lock/UnLock History</a>

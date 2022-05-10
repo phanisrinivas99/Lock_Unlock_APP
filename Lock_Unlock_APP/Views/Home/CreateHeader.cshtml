@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Create Header";
+}
+
+<div class="container">
+    <h2>Create Header</h2>
+    <br />
+    <form class="form-horizontal" action="/action_page.php">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="UserName">User Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="UserName" placeholder="Enter User Name" name="User Name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="Status">Status:</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="Status">
+                    <option value="">Select Status</option>
+                    <option value="Lock">Lock</option>
+                    <option value="UnLock">UnLock</option>
+                </select>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" class="btn btn-primary" onclick="SubmitForm();" value="Save"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function validateform() {
+
+        validate = true;
+        $(".css-error").removeClass('css-error');
+        if ($("#Status").val() == "") {
+            $("#Status").addClass('css-error');
+            validate = false;
+        }
+        if ($("#UserName").val() == "") {
+            $("#UserName").addClass('css-error');
+            validate = false;
+        }
+    }
+    function SubmitForm() {
+
+        $(".css-error").removeClass('css-error');
+        validateform();
+        if (validate) {
+            var task = {
+                status: $("#Status").val(),
+                userName: $("#UserName").val(),
+               
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Home/InsertHeader",
+                data: task,
+                success: function (data) {
+                },
+                error: function () {
+                    alert("error")
+                }
+            });
+        }
+        else {
+
+            alert("Fields Required");
+        }
+    }
+</script>

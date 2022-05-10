@@ -4,6 +4,13 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+          $('#btnLockProfile').click(function () {
+            $('#btnLockProfile').prop('disabled', true);
+            $.getJSON("@Url.Action("UpdateStatus", "Home")", function (data) {
+                alert(data);
+            $('#btnLockProfile').prop('disabled', false);
+            });
+    });
         $('#tblDetails').DataTable({
             "order": [],
             "ajax": {
@@ -25,9 +32,10 @@
 </script>
 <div class="mx-auto p-10">
     <div class="text-center">
-        <h2>Lock/UnLock Details</h2>
+        <input type="button" class="btn btn-primary btn-lg active" id="btnLockProfile" value="(Un)Lock Profiles" />
 
     </div>
+  
     <div class="mt-2 col-md-12">
         <table class="table table-bordered table-striped" id="tblDetails">
             <thead class="text-white" style="background-color:#0062cc">

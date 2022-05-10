@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "Create Details";
+}
+
+<div class="container">
+    <h2>Create Details</h2>
+    <br />
+    <form class="form-horizontal" action="/action_page.php">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="Status">Header :</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="HeaderId">
+                    <option value="1">Lock</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="Division">Division:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="Division" placeholder="Enter Division" name="Division">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="ProfileName">Profile Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="ProfileName" placeholder="Enter Profile Name" name="ProfileName">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="Status">Status:</label>
+            <div class="col-sm-10">
+                <select class="form-control" id="Status">
+                    <option value="Lock">Lock</option>
+                    <option value="UnLock">UnLock</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" class="btn btn-primary" onclick="SubmitForm();" value="Save" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        LoadHeader();
+    });
+    function LoadHeader() {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetHeaders",
+            //data: "id=",
+            success: function (data) {
+                debugger;
+                //data = data.aaData;
+                //console.log(data);
+                var options = [];
+                options.push('<option value="">- Select Header -</option>');
+                for (var i = 0; i < data.length; i++) {
+                    options.push('<option value="' + data[i].id + '">' + data[i].userName + '</option>');
+                }
+                $("#HeaderId").html(options.join(''));
+            },
+            error: function () {
+                alert("error")
+            }
+        });
+    }
+    function validateform() {
+
+        validate = true;
+        $(".css-error").removeClass('css-error');
+        if ($("#Division").val() == "") {
+            $("#Division").addClass('css-error');
+            validate = false;
+        }
+        if ($("#ProfileName").val() == "") {
+            $("#ProfileName").addClass('css-error');
+            validate = false;
+        }
+        if ($("#Status").val() == "") {
+            $("#Status").addClass('css-error');
+            validate = false;
+        }
+        if ($("#HeaderId").val() == "") {
+            $("#HeaderId").addClass('css-error');
+            validate = false;
+        }
+    }
+    function SubmitForm() {
+
+        $(".css-error").removeClass('css-error');
+        validateform();
+        if (validate) {
+            var task = {
+                status: $("#Status").val(),
+                ProfileName: $("#ProfileName").val(),
+                division: $("#Division").val(),
+                headerId: $("#HeaderId").val(),
+               
+
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Home/InsertDetails",
+                data: task,
+                success: function (data) {
+                },
+                error: function () {
+                    alert("error")
+                }
+            });
+        }
+        else {
+
+            alert("Fields Required");
+        }
+    }
+</script>
+
